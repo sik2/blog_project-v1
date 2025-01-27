@@ -2,6 +2,7 @@ package com.ll.blog.domain.member.member.service;
 
 import com.ll.blog.domain.member.member.entity.Member;
 import com.ll.blog.domain.member.member.repository.MemberRepository;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -68,5 +69,19 @@ public class MemberService {
         Member member = new Member(id, username, nickname);
 
         return member;
+    }
+
+    public void modify(Member member, @NotBlank String nickname) {
+        member.setNickname(nickname);
+    }
+
+    public Member modifyOrJoin(String username, String nickname) {
+        Optional<Member> opMember = findByUsername(username);
+        if (opMember.isPresent()) {
+            Member member = opMember.get();
+            modify(member, nickname);
+            return member;
+        }
+        return join(username, "", nickname);
     }
 }
