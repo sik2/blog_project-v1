@@ -9,9 +9,9 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
@@ -39,11 +39,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         Member member = memberService.modifyOrJoin(username, nickname);
 
         return new SecurityUser(
-                0,
-                username,
+                member.getId(),
+                member.getUsername(),
                 "",
-                nickname,
-                List.of()
+                member.getNickname(),
+                member.getAuthorities()
         );
     }
 }
