@@ -4,6 +4,7 @@ import com.ll.blog.domain.member.member.entity.Member;
 import com.ll.blog.domain.member.member.repository.MemberRepository;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -24,7 +25,7 @@ public class MemberService {
         memberRepository
                 .findByUsername(username)
                 .ifPresent(_ -> {
-                    throw new RuntimeException("해당 username은 이미 사용중입니다.");
+                    throw new ServiceException("해당 username은 이미 사용중입니다.");
                 });
 
         Member member = Member.builder()
