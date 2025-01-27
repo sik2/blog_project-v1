@@ -3,7 +3,6 @@ package com.ll.blog.global.security;
 
 import com.ll.blog.domain.member.member.entity.Member;
 import com.ll.blog.domain.member.member.service.MemberService;
-import com.ll.blog.global.app.AppConfig;
 import com.ll.blog.global.rq.Rq;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,7 +22,7 @@ public class CustomOAuth2AuthenticationSuccessHandler extends SavedRequestAwareA
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         Member actor = memberService.findById(rq.getActor().getId()).get();
         rq.makeAuthCookies(actor);
-        String redirectUrl = AppConfig.getSiteFrontUrl();
+        String redirectUrl = request.getParameter("state");
         response.sendRedirect(redirectUrl);
     }
 }
